@@ -121,8 +121,14 @@ $relations = $users_table->getRelations();
  * $relations will contain array like this
  *
  * array(
- *      'users.id:products.user_id'             => [ReflectionColumn users.id, ReflectionColumn ReflectionColumn product.user_id],
- *      'users.id:product_categories.user_id'   => [ReflectionColumn users.id, ReflectionColumn product_categories.user_id],
+ *      'users.id:products.user_id' => array(
+ *          0 => ReflectionColumn of users.id, 
+ *          1 => ReflectionColumn of product.user_id
+ *      ),
+ *      'users.id:product_categories.user_id' => array(
+ *          0 => ReflectionColumn of users.id, 
+ *          1 => ReflectionColumn of product_categories.user_id
+ *      ),
  * )
  */
 ```
@@ -136,7 +142,10 @@ $relations = $products_table->getRelations();
  * $relations will contain array like this
  *
  * array(
- *      'products.user_id:user.id'             => ReflectionColumn object,
+ *      'products.user_id:users.id' => array(
+ *          0 => ReflectionColumn of products.user_id,
+ *          1 => ReflectionColumn of users.id
+ *      )
  * )
  */
 ```
@@ -168,8 +177,8 @@ $relations = $ref_id->getRelations();
  * $relations will contain array like this
  *
  * array(
- *      'products.user_id'             => ReflectionColumn object,
- *      'product_categories.user_id'   => ReflectionColumn object,
+ *      'products.user_id'             => ReflectionColumn of products.user_id,
+ *      'product_categories.user_id'   => ReflectionColumn of product_categories.user_id,
  * )
  */
 ```
