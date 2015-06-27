@@ -99,12 +99,12 @@ class ReflectionColumn {
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'PRI');
     }
 
-    public function isUnique($include_primary = false)
+    public function isUnique()
     {
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'UNI');
     }
 
-    public function isIndex($or_unique_or_primary)
+    public function isIndex()
     {   
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'MUL');
     }
@@ -124,7 +124,6 @@ class ReflectionColumn {
         $database = $this->getDatabase();
 
         foreach($this->relations as $key => $data) {
-            // $data is array relation data that fetched from fetchColumnRelations()
             $table = $database->getTable($data['tablename']);
             $column = $table->getColumn($data['colname']);
 
