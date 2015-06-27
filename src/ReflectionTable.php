@@ -73,11 +73,8 @@ class ReflectionTable {
 
     public function getColumn($colname)
     {
-        $columns = $this->getColumns();
-        foreach($columns as $name => $column) {
-            if($name == $colname) {
-                return $column;
-            }
+        if($this->hasColumn($colname)) {
+            return $this->columns[$colname];
         }
 
         return null;   
