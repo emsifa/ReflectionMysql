@@ -55,7 +55,7 @@ This class will reflect column in a table.
 * **isUnique()** : check the column is unique or not.
 * **isIndex()** : check the column is index(MUL) or not.
 * **isIndexed()** : check the column is indexed(primary|unique|index) or not. 
-* **getRelations()** : get column relations. It will return array of `ReflectionColumn` that related to .
+* **getRelations()** : get column relations. It will return array of `ReflectionColumn` that related to this column.
 
 ## Examples
 
