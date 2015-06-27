@@ -1,7 +1,7 @@
 ReflectionMysql
 ===========================
 
-Inpired by `ReflectionClass`, this library will reflect your MySQL database. So you can see what is behind your database. You can get list tables, list columns in table, what is the primary key of the table, get table indexes, column relations, what column type is, column comment, etc.
+Inspired by `ReflectionClass`, this library will reflect your MySQL database. You can get list tables, list columns in the table, what is the primary key of the table, get table indexes, column relations, what column type is, column comment, etc.
 
 Like `ReflectionClass`, `ReflectionMysql` has Reflection tree. 
 For example, if `ReflectionClass` has many `ReflectionMethod` objects that reflect methods in a class, `ReflectionMysql` has many `ReflectionTable` objects that reflect tables in database. If `ReflectionMethod` has many `ReflectionParameters` objects that reflect parameters in method, `ReflectionTable` has many `ReflectionColumn` objects that reflect columns in table. And that objects are related each other. 
