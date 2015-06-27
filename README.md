@@ -85,9 +85,9 @@ $tables = $db_reflection->getTables();
  * $tables will contain array like this
  *
  * array(
- *      'users'                 => ReflectionTable object,
- *      'products'              => ReflectionTable object,
- *      'product_categories'    => ReflectionTable object,
+ *      'users'                 => ReflectionTable of users table,
+ *      'products'              => ReflectionTable of products table,
+ *      'product_categories'    => ReflectionTable of product_categories table,
  * )
  */
 ```
@@ -103,9 +103,9 @@ $columns = $users_table->getColumns();
  * $columns will contain array like this
  *
  * array(
- *      'id'        => ReflectionColumn object,
- *      'username'  => ReflectionColumn object,
- *      'password'  => ReflectionColumn object,
+ *      'id'        => ReflectionColumn of users.id,
+ *      'username'  => ReflectionColumn of users.username,
+ *      'password'  => ReflectionColumn of users.password,
  * )
  */
 ```
