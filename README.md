@@ -145,7 +145,11 @@ $relations = $products_table->getRelations();
  *      'products.user_id:users.id' => array(
  *          0 => ReflectionColumn of products.user_id,
  *          1 => ReflectionColumn of users.id
- *      )
+ *      ),
+ *      'products.id_category:product_categories.id' => array(
+ *          0 => ReflectionColumn of products.id_category,
+ *          1 => ReflectionColumn of product_categories.id
+ *      ),
  * )
  */
 ```
