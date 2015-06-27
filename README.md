@@ -121,8 +121,8 @@ $relations = $users_table->getRelations();
  * $relations will contain array like this
  *
  * array(
- *      'users.id:products.user_id'             => ReflectionColumn object,
- *      'users.id:product_categories.user_id'   => ReflectionColumn object,
+ *      'users.id:products.user_id'             => [ReflectionColumn users.id, ReflectionColumn ReflectionColumn product.user_id],
+ *      'users.id:product_categories.user_id'   => [ReflectionColumn users.id, ReflectionColumn product_categories.user_id],
  * )
  */
 ```
