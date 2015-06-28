@@ -2,12 +2,24 @@
 
 class ReflectionTable {
 
+    /**
+     * @var Emsifa\ReflectionMysql\ReflectionMysql
+     */
     protected $database;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var boolean
+     */
     protected $initialized = false;
 
+    /**
+     * @var null | Emsifa\ReflectionMysql\ReflectionColumn
+     */
     protected $primary;
 
     public function __construct(ReflectionMysql $database, $name)
@@ -18,26 +30,51 @@ class ReflectionTable {
         $this->initialize();
     }
 
+    /**
+     * Get mysqli connection
+     *
+     * @return mysqli
+     */
     public function getConnection()
     {
         return $this->getDatabase()->getConnection();
     }
 
+    /**
+     * Get database reflection
+     *
+     * @return Emsifa\ReflectionMysql\ReflectionMysql
+     */
     public function getDatabase()
     {
         return $this->database;
     }
 
+    /**
+     * Get table name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Get list columns
+     *
+     * @return array of Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getColumns()
     {
         return $this->columns;
     }
 
+    /**
+     * Get indexed columns
+     *
+     * @return array of Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getIndexes()
     {
         $columns = $this->getColumns();
@@ -51,11 +88,21 @@ class ReflectionTable {
         return $indexes;
     }
 
+    /**
+     * Get indexed columns
+     *
+     * @return null | Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getPrimary()
     {
         return $this->primary;
     }
 
+    /**
+     * Get related columns
+     *
+     * @return array of Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getRelations()
     {
         $columns = $this->getColumns();
@@ -71,6 +118,11 @@ class ReflectionTable {
         return $relations;
     }
 
+    /**
+     * Get specified column
+     *
+     * @return null | Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getColumn($colname)
     {
         if($this->hasColumn($colname)) {
@@ -80,12 +132,22 @@ class ReflectionTable {
         return null;   
     }
 
+    /**
+     * Check if table has column
+     *
+     * @return boolean
+     */
     public function hasColumn($colname)
     {
         $columns = $this->getColumns();
         return array_key_exists($colname, $columns);
     }
 
+    /**
+     * Initialize table
+     *
+     * @return void
+     */
     protected function initialize()
     {
         $connection = $this->getConnection();
@@ -106,6 +168,11 @@ class ReflectionTable {
         $this->columns = $columns;
     }
 
+    /**
+     * Fetch column names in table
+     *
+     * @return array
+     */
     protected function fetchColumnNames()
     {
         $connection = $this->getConnection();

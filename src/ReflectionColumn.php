@@ -2,118 +2,239 @@
 
 class ReflectionColumn {
 
+    /**
+     * @var Emsifa\ReflectionMysql\ReflectionTable
+     */
     protected $table;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * Store column informations
+     *
+     * @var array
+     */
     protected $informations = array();
 
+    /**
+     * @var boolean
+     */
     protected $has_initialize_relations = false;
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function __construct(ReflectionTable $table, $colname) {
         $this->table = $table;
         $this->name = $colname;
         $this->informations = $this->fetchColumnInformations();
     }
 
+    /**
+     * Get mysqli connection
+     *
+     * @return mysqli
+     */
     public function getConnection()
     {
         return $this->getTable()->getConnection();
     }
 
 
+    /**
+     * Get database reflection
+     *
+     * @return Emsifa\ReflectionMysql\ReflectionMysql
+     */
     public function getDatabase()
     {
         return $this->getTable()->getDatabase();
     }
 
+    /**
+     * Get table reflection
+     *
+     * @return Emsifa\ReflectionMysql\ReflectionTable
+     */
     public function getTable()
     {
         return $this->table;
     }
 
+    /**
+     * Get column information by given key
+     *
+     * @param string    $key
+     * @param mixed     $default
+     * @return mixed
+     */
     public function getInfo($key, $default = null)
     {
         $key = strtoupper($key);
         return array_key_exists($key, $this->informations)? $this->informations[$key] : $default;
     }
 
+    /**
+     * Get column name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Get column data type
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->getInfo('DATA_TYPE');
     }
 
+    /**
+     * Get column default value
+     *
+     * @return string
+     */
     public function getDefault()
     {
         return $this->getInfo('COLUMN_DEFAULT');
     }
 
+    /**
+     * Check column is nullable or not
+     *
+     * @return boolean
+     */
     public function isNullable()
     {
         return ($this->getInfo('IS_NULLABLE') == 'YES');
     }
 
+    /**
+     * Get column comment/description
+     *
+     * @return string
+     */
     public function getComment()
     {
         return $this->getInfo('COLUMN_COMMENT');
     }
 
+    /**
+     * Get column max char length
+     *
+     * @return int
+     */
     public function getLength()
     {
         $length = $this->getInfo('CHARACTER_MAXIMUM_LENGTH');
         return is_numeric($length)? $length : null;
     }
 
+    /**
+     * Get column character set
+     *
+     * @return string
+     */
     public function getCharset()
     {
         return $this->getInfo('CHARACTER_SET_NAME');
     }
 
+    /**
+     * Get column collaction
+     *
+     * @return string
+     */
     public function getCollation()
     {
         return $this->getInfo('COLLATION_NAME');
     }
 
+    /**
+     * Check column has extra auto increment or not
+     *
+     * @return boolean
+     */
     public function isAutoIncrement()
     {
         return $this->getInfo('EXTRA') == 'auto increment';
     }
 
+    /**
+     * Description
+     *
+     * @return void
+     */
     public function getCatalog()
     {
         return $this->getInfo('TABLE_CATALOG');
     }
 
+    /**
+     * Get column sort order
+     *
+     * @return int
+     */
     public function getSortOrder()
     {
-        return $this->getInfo('ORDINAL_POSITION');
+        return (int) $this->getInfo('ORDINAL_POSITION');
     }
 
+    /**
+     * Check column has primary key or not
+     *
+     * @return void
+     */
     public function isPrimary()
     {
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'PRI');
     }
 
+    /**
+     * Check column has unique key or not
+     *
+     * @return boolean
+     */
     public function isUnique()
     {
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'UNI');
     }
 
+    /**
+     * Check column has index(MUL) key or not
+     *
+     * @return boolean
+     */
     public function isIndex()
     {   
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'MUL');
     }
 
+    /**
+     * Check column has indexed key or not
+     *
+     * @return boolean
+     */
     public function isIndexed()
     {
         return ($this->isPrimary() OR $this->isIndex() OR $this->isUnique());
     }
 
+    /**
+     * Get column relations
+     *
+     * @return array of Emsifa\ReflectionMysql\ReflectionColumn
+     */
     public function getRelations()
     {
         if(!$this->has_initialize_relations) {
@@ -133,6 +254,11 @@ class ReflectionColumn {
         return $relations;
     }
 
+    /**
+     * Check the column is related to specified table or another column
+     *
+     * @return booelan
+     */
     public function isRelatedWith($table, $column_name = null)
     {
         $relations = $this->getRelations();
@@ -188,6 +314,11 @@ class ReflectionColumn {
         return FALSE;
     }
 
+    /**
+     * Fetch column informations
+     *
+     * @return array
+     */
     protected function fetchColumnInformations()
     {
         $tablename = $this->table->getName();

@@ -4,10 +4,19 @@ use mysqli;
 
 class ReflectionMysql {
 
+    /**
+     * @var mysqli
+     */
     protected $connection;
 
+    /**
+     * @var string
+     */
     protected $dbname;
 
+    /**
+     * @var string
+     */
     protected $host;
 
     public function __construct($host, $username, $password, $dbname)
@@ -31,6 +40,16 @@ class ReflectionMysql {
     public function getName()
     {
         return $this->dbname;
+    }
+
+    /**
+     * Get database hostname
+     *
+     * @return string
+     */
+    public function getHostname()
+    {
+        return $this->host;
     }
 
     /**
