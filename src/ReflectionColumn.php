@@ -67,6 +67,16 @@ class ReflectionColumn {
     }
 
     /**
+     * Get all column information
+     *
+     * @return mixed
+     */
+    public function getInformations()
+    {
+        return $this->informations;
+    }
+
+    /**
      * Get column information by given key
      *
      * @param string    $key
@@ -218,6 +228,35 @@ class ReflectionColumn {
     public function isIndex()
     {   
         return (strtoupper($this->getInfo('COLUMN_KEY')) == 'MUL');
+    }
+
+    /**
+     * Check column has foreign key or not
+     *
+     * @return boolean
+     */
+    public function isForeign()
+    {   
+        $tablename = $this->table->getName();
+        $connection = $this->getConnection();
+        $colname = $this->getName();
+        $dbname = $this->getDatabase()->getName();
+        
+        $query = "
+            SELECT `referenced_column_name` as colname, `referenced_table_name` as tablename
+            FROM `information_schema`.`KEY_COLUMN_USAGE`
+            WHERE `constraint_schema` = '{$dbname}'
+            AND `table_name` = '{$tablename}' 
+            AND `column_name` = '{$colname}'
+            AND `referenced_column_name` IS NOT NULL 
+        ";
+
+        $result = $connection->query($query);
+        if($connection->error) {
+            throw new QueryErrorException($connection->error);
+        }
+
+        return ($result->num_rows > 0);
     }
 
     /**
